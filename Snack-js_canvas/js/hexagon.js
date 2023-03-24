@@ -1,0 +1,49 @@
+class Hexagon{
+	// Constructor pour initialiser les propriétés de l'hexagone
+	constructor(ctx, x, y){
+		this.x = x;
+		this.y = y;		
+		this.ctx = ctx;					
+		this.size = 20;		
+		this.fillStyle = "gray";
+		this.strokeStyle = "black";
+		this.lineWidth = 2;
+		this.points = [];
+
+		// Initialisation des points de l'hexagone avec une boucle for
+		this.initialPoint = new Point(x + this.size * Math.cos(0), y + this.size * Math.sin(0));
+		for (var i=0; i < 7; i++) {	
+			var p = x + this.size * Math.cos(i * 2 * Math.PI / 6);
+			var q = y + this.size * Math.sin(i * 2 * Math.PI / 6);
+			var point = new Point(p, q);				
+			point = ut.rotate(point, new Point(x, y), 60);		  	
+		  	this.points.push(point);
+		}	
+		
+	}
+
+	draw(){	
+		// Dessin de l'hexagone
+		this.ctx.strokeStyle = this.strokeStyle;
+		this.ctx.fillStyle = this.fillStyle;
+		
+		// Dessin de la forme pleine de l'hexagone
+		this.ctx.beginPath();
+		this.ctx.moveTo(this.initialPoint.x, this.initialPoint.y);
+		for (var i=0; i < 7; i++) {			
+		  	this.ctx.lineTo(this.points[i].x, this.points[i].y);
+		}
+		this.ctx.closePath();		
+		this.ctx.fill();
+
+		// Dessin du contour de l'hexagone
+		this.ctx.beginPath();
+		this.ctx.moveTo(this.initialPoint.x, this.initialPoint.y);
+		for (var i=0; i < 7; i++) {			
+		  	this.ctx.lineTo(this.points[i].x, this.points[i].y);
+		}	
+		this.ctx.closePath();
+		this.ctx.lineWidth = 3;	
+		this.ctx.stroke();									
+	}
+}
